@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     removeTodo(index) {
-      eventBus.$emit('removeTodo', index)
+      eventBus.$emit('removeSelectedTodo', index)
     },
     // edit the existing todo item on the list
     editTodo(){

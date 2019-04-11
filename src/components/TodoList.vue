@@ -24,8 +24,7 @@ import TodoItem from './TodoItem'
 import TodoItemsRemaining from './TodoItemsRemaining'
 import TodoCheckAll from './TodoCheckAll'
 import TodoFiltered from './TodoFiltered'
-import TodoClearComplete from './TodoClearComplete'
-TodoClearComplete
+import TodoClearCompleted from './TodoClearCompleted'
 
 export default {
 
@@ -36,7 +35,7 @@ export default {
     TodoItemsRemaining,
     TodoCheckAll,
     TodoFiltered,
-    TodoClearComplete
+    TodoClearCompleted
   },
   data () {
     return {
@@ -61,18 +60,18 @@ export default {
     }
   },
   created(){
-    eventBus.$on('removedTodo', (index) => this.removeTodo(index))
+    eventBus.$on('removeSelectedTodo', (index) => this.removeTodo(index))
     eventBus.$on('finishedEdit', (data) => this.finishedEdit(data))
     eventBus.$on('checkAllTodos', () => this.checkAllTodos())
     eventBus.$on('filterChanged', (value) => this.filter = value)
     eventBus.$on('clearCompletedTodos', () => this.clearCompletedButton())
   },
   beforeDestroy(){
-    eventBus.$off('removedTodo', (index) => this.removeTodo(index))
-    eventBus.$off('finishedEdit', (data) => this.finishedEdit(data))
-    eventBus.$off('checkAllTodos', () => this.checkAllTodos())
-    eventBus.$off('filterChanged', (value) => this.filter = value)
-    eventBus.$off('clearCompletedTodos', () => this.clearCompletedButton())
+    eventBus.$off('removeSelectedTodo')
+    eventBus.$off('finishedEdit')
+    eventBus.$off('checkAllTodos')
+    eventBus.$off('filterChanged')
+    eventBus.$off('clearCompletedTodos')
 
 
   },
@@ -122,7 +121,8 @@ export default {
     },
 
     finishedEdit(data) {
-      this.todos.splice(data.index, 1, data.todo)
+      let index = this.todos.findIndex(item => item.id === data.id)
+      this.todos.splice(index, 1, data.todo)
     },
 
     checkAllTodos(){

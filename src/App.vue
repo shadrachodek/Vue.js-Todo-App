@@ -11,7 +11,7 @@ import TodoItem from './components/TodoItem'
 import TodoItemsRemaining from './components/TodoItemsRemaining'
 import TodoCheckAll from './components/TodoCheckAll'
 import TodoFiltered from './components/TodoFiltered'
-import TodoClearComplete from './components/TodoClearComplete'
+import TodoClearCompleted from './components/TodoClearCompleted'
 
 
 
@@ -23,7 +23,7 @@ export default {
     TodoItemsRemaining,
     TodoCheckAll,
     TodoFiltered,
-    TodoClearComplete,
+    TodoClearCompleted,
   }
 }
 </script>
