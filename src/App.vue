@@ -7,11 +7,13 @@
 
 <script>
 import TodoList from './components/TodoList'
+import TodoItem from './components/TodoItem'
 
 export default {
   name: 'app',
   components: {
-    TodoList
+    TodoList,
+    TodoItem
   }
 }
 </script>

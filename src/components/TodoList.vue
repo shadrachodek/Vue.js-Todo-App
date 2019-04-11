@@ -2,16 +2,7 @@
   <div>
     <input type="text" class="todo-input" placeholder="what needs to be done" v-model="newTodo" @keyup.enter="addTodo">
     <transition-group name="fade" enter-active-class="animated fadeInUp" leave-active-class="animated fadeOutDown">
-        <div v-for="(todo, index) in todosFiltered" :key="todo.id" class="todo-item">
-          <div class="todo-item-left">
-            <input type="checkbox" v-model="todo.completed" >
-            <div v-if="!todo.editing"  @dblclick="editTodo(todo)" class="todo-item-label" :class="{ completed : todo.completed}">{{todo.title}}</div>
-            <input v-else class="todo-item-edit" type="text" v-model="todo.title" @blur="doneEdit(todo)" @keyup.enter="doneEdit(todo)" @keyup.esc="cancelEdit(todo)" v-focus>
-          </div>
-          <div class="remove-item" @click="removeTodo(index)">
-            &times;
-          </div>
-        </div>
+        <todo-item v-for="(todo, index) in todosFiltered" :key="todo.id" :todo="todo" :index="index" @removeTodo="removeTodo" @finishedEdit="finishedEdit" :checkAll="!anyRemaining"></todo-item>
     </transition-group>
      <div class="extra-container">
       <div>
@@ -37,8 +28,14 @@
 </template>
 
 <script>
+import TodoItem from './TodoItem'
 export default {
+
+
   name: 'todo-list',
+  components: {
+    TodoItem,
+  },
   data () {
     return {
       idForTodo: 3,
@@ -87,15 +84,6 @@ export default {
       return this.todos.filter(todo => todo.completed).length > 0;
     }
   },
-
-  directives: {
-    focus: {
-      inserted: function (el) {
-        el.focus()
-      }
-    }
-  },
-
   methods: {
 
     // add todo item to the list
@@ -111,28 +99,15 @@ export default {
       this.newTodo = '';
       this.idForTodo++;
     },
-    // edit the existing todo item on the list
-    editTodo(todo){
-      this.beforeEditCache = todo.title
-      todo.editing = true;
-    },
-    // know what was edited
-    // if existing item was edit to empty value return the before rdit value
-    doneEdit(todo) {
-      if(todo.title.trim() == ''){
-        todo.title = this.beforeEditCache
-      }
-      todo.editing = false;
-    },
     // remove todo item from the list
     removeTodo(index) {
       this.todos.splice(index, 1);
     },
-    // cancel to revet to the formal todo item while editing
-    cancelEdit(todo) {
-      todo.title = this.beforeEditCache
-      todo.editing = false
+
+    finishedEdit(data) {
+      this.todos.splice(data.index, 1, data.todo)
     },
+
     checkAllTodos(){
       this.todos.forEach(todo => todo.completed = event.target.checked)
     },
@@ -153,7 +128,7 @@ export default {
     padding: 10px 10px;
     font-size: 18px;
     margin-bottom: 16px;
-  
+
 
     &:focus {
       outline: 0;
@@ -191,7 +166,7 @@ export default {
     &:focus {
       outline: none;
     }
-  } 
+  }
 
   .completed {
     text-decoration: line-through;
@@ -234,7 +209,7 @@ export default {
   .fade-enter-active, .fade-leave-active {
     transition: opacity .2s;
   }
-  
+
   .fade-enter, .fade-leave-to {
     opacity: 0;
   }
