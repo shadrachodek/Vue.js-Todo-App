@@ -8,12 +8,22 @@
 <script>
 import TodoList from './components/TodoList'
 import TodoItem from './components/TodoItem'
+import TodoItemsRemaining from './components/TodoItemsRemaining'
+import TodoCheckAll from './components/TodoCheckAll'
+import TodoFiltered from './components/TodoFiltered'
+import TodoClearComplete from './components/TodoClearComplete'
+
+
 
 export default {
   name: 'app',
   components: {
     TodoList,
-    TodoItem
+    TodoItem,
+    TodoItemsRemaining,
+    TodoCheckAll,
+    TodoFiltered,
+    TodoClearComplete,
   }
 }
 </script>
