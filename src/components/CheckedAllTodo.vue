@@ -14,10 +14,9 @@ export default {
       return this.$store.getters.anyRemaining;
     }
   },
-
   methods: {
     checkedAllTodos() {
-      this.$store.state.todos.forEach(todo => todo.completed = event.target.checked)
+      this.$store.commit('checkedTodos', event.target.checked)
     }
   }
 }

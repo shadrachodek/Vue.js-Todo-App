@@ -71,6 +71,9 @@ export default new Vuex.Store({
     },
     todoFiltered(state, filter) {
       state.filter = filter
+    },
+    checkedTodos(state, checked) {
+      state.todos.forEach(todo => todo.completed = checked)
     }
 
   },
