@@ -19,7 +19,7 @@
         v-focus
       >
     </div>
-    <div class="remove-item" @click="removeTodo(index)">&times;</div>
+    <div class="remove-item" @click="removeTodo(todo)">&times;</div>
   </div>
 </template>
 
@@ -30,10 +30,6 @@ export default {
     todo: {
       type: Object,
       required: true
-    },
-    index: {
-      type: Number,
-      required: true,
     },
     checkAll : {
       type: Boolean,
@@ -66,8 +62,8 @@ export default {
     }
   },
   methods: {
-    removeTodo(index) {
-      eventBus.$emit('removeSelectedTodo', index)
+    removeTodo(todo) {
+      this.$store.commit('removeTodo', todo)
     },
     // edit the existing todo item on the list
     editTodo(){
@@ -81,16 +77,12 @@ export default {
         this.title = this.beforeEditCache
       }
       this.editing = false;
-      eventBus.$emit('finishedEdit', {
-        'index': this.index,
-        'todo': {
+      this.$store.commit('updateTodo',  {
           'id': this.id,
           'title': this.title,
           'completed': this.completed,
           'editing': this.editing,
-        }
-
-      })
+        });
     },
      // cancel to revet to the formal todo item while editing
     cancelEdit() {

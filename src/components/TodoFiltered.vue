@@ -9,19 +9,14 @@
 <script>
 export default {
   name: "todo-filtered",
-  props: {
-    filter: {
-      type: String,
-      required: true
+  computed: {
+    filter() {
+      return this.$store.state.filter
     }
   },
-
   methods: {
-    allChecked() {
-      eventBus.$emit("checkAllTodos");
-    },
-    todoFilter(value) {
-      eventBus.$emit("filterChanged", value);
+    todoFilter(filter) {
+      this.$store.commit('todoFiltered', filter)
     }
   }
 };
